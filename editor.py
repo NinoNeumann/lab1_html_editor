@@ -12,6 +12,8 @@ class HTMLCommandEditor:
     def execute_command(self, command, *args):
         if command == "insert":
             self._insert(*args)
+        elif command == "append":
+            self._append(*args)
         elif command == "delete":
             self._delete(*args)
         elif command == "edit-text":
@@ -47,6 +49,24 @@ class HTMLCommandEditor:
         """Insert a new element"""
         self.model.add_element(tag, element_id, parent_id, text_content)
 
+    def _append(self, tag_name, id_value, parent_id, text_content=""):
+        """Append a new element to the parent element"""
+        # Step 1: Check if the new id already exists
+        if self.model.get_element_by_id(id_value):
+            print(f"Error: An element with id '{id_value}' already exists.")
+            return
+        
+        # Step 2: Find the parent element by parent_id
+        parent_element = self.model.get_element_by_id(parent_id)
+        if not parent_element:
+            print(f"Error: Parent element with id '{parent_id}' not found.")
+            return
+        
+        # Step 3: Insert the new element as the last child of the parent element
+        self.model.add_element(tag_name, id_value, parent_id, text_content)
+        print(f"Appended {tag_name} with id '{id_value}' to parent element with id '{parent_id}'.")
+    
+    
     def _delete(self, element_id):
         """Delete an element"""
         self.model.delete_element(element_id)

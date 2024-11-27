@@ -68,3 +68,7 @@ class HTMLModel:
             raise ValueError(f"Element ID '{old_id}' not found.")
         element.id = new_id
         self.id_map[new_id] = element
+        
+    def get_element_by_id(self, element_id):
+        """Retrieve an element by its ID."""
+        return self.id_map.get(element_id, None)
